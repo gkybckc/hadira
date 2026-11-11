@@ -39,7 +39,9 @@ Framework, harici istek, çerez, analitik, izleyici yok. `prefers-reduced-motion
 
 ## Hâlâ yer tutucu olanlar
 
-- **App Store rozeti:** üst bilgideki tıklanamayan "App Store’da yakında" etiketi. App Store Connect'te uygulama kimliği oluşunca Apple'ın resmî rozetiyle (Apple'ın rozet kurallarına göre) `https://apps.apple.com/tr/app/id<APP_STORE_ID>` bağlantısı konacak. Aynı kimlik `src/config/app.ts` → `APP_STORE_ID` alanına da yazılacak.
+- **App Store düğmeleri:** üst bilgi, giriş bölümü ve sayfa sonundaki "İndir" bölümünde. Apple'ın resmî rozeti değil, kendi tasarımımız; uygulama kimliği yokken "App Store’da yakında" der ve sayfa sonuna kayar. Kimlik oluşunca yalnızca `index.html` içindeki `<meta name="hadira-app-store-id" content="">` alanına yaz: düğmelerin hepsi `https://apps.apple.com/tr/app/id<KİMLİK>` bağlantısına döner ve metin "App Store’dan indir" olur. İstenirse o zaman Apple'ın resmî rozetine (Apple'ın rozet kurallarına göre) geçilir. Aynı kimlik uygulamada `src/config/app.ts` → `APP_STORE_ID` alanına da yazılır.
+- **Ekran görüntüleri (`assets/ekran/`):** uygulamanın web önizlemesinden (Expo web, 390×844) alındı; gerçek iPhone görüntüsü değil. Mağaza görselleri gerçek cihazdan alınınca bunlar da değiştirilmeli. Kullanıcı hesabı ya da kişisel veri içermez.
+- **Tanıtım videosu (`assets/video/`):** `reklam/hadira-reklam.mp4` kopyası; sessiz, yalnızca görünürken oynar, "hareketi azalt" açıksa kendi başlamaz. Videonun sonundaki "App Store’da yakında" yazısı yayından sonra değişmeli.
 - **Canlı vakitler yaklaşık:** `app.js` İstanbul için güneş konumundan hesaplıyor (imsak 18°, yatsı 17°, Şafii ikindi, Diyanet'e benzer dakika düzeltmeleri). Diyanet takvimiyle birkaç dakika fark edebilir; sayfada "yaklaşık" diye yazıyor. Uygulamanın kendi hesabıyla (`src/lib/prayer.ts`) karşılaştırılmalı.
 - **Örnek içerik:** akıştaki ve widget'taki zikirler, seri sayısı (12 gün) ve üç yarışma sorusu temsilîdir.
 - **Telif:** `© 2026 Hadıra` satırı, şirket/şahıs adı netleşince güncellenecek.

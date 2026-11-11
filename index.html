@@ -9,6 +9,9 @@
   <meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1E1D1B" media="(prefers-color-scheme: dark)">
   <link rel="canonical" href="https://hadira.app/">
+  <!-- App Store Connect'te uygulama kimliği oluşunca yalnızca burayı doldur (ör. 1234567890).
+       Boşken düğmeler "App Store'da yakında" der ve sayfanın sonuna kayar. -->
+  <meta name="hadira-app-store-id" content="">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
@@ -38,9 +41,10 @@
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 29V15a10 10 0 0 1 20 0v14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="18" r="3.2" fill="var(--gold)"/></svg>
         <span>Hadıra</span>
       </a>
-      <p class="store-soon" aria-label="App Store’da yakında. Uygulama henüz yayında değil.">
-        <span class="dot" aria-hidden="true"></span>App Store’da yakında
-      </p>
+      <a class="store-btn store-btn-sm" href="#indir" data-store>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span data-store-label>App Store’da yakında</span>
+      </a>
     </div>
   </header>
 
@@ -49,7 +53,16 @@
     <section class="hero" aria-labelledby="hero-baslik">
       <div class="wrap hero-top">
         <h1 id="hero-baslik">Kalbin her an <em>Allah’ı</em> ansın.</h1>
-        <p class="lede">Ayet, hadis, dua ve zikir: kilit ekranında, ana ekranda, seçtiğin saatte. Namaz vakitleri de yanında. iPhone için.</p>
+        <div class="hero-side">
+          <p class="lede">Ayet, hadis, dua ve zikir: kilit ekranında, ana ekranda, seçtiğin saatte. Namaz vakitleri de yanında. iPhone için.</p>
+          <div class="hero-cta">
+            <a class="store-btn" href="#indir" data-store>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span class="store-txt"><small data-store-small>iPhone için</small><span data-store-label>App Store’da yakında</span></span>
+            </a>
+            <a class="text-link" href="#tanitim">Tanıtımı izle <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
       </div>
 
       <div class="stage" data-stage>
@@ -128,6 +141,26 @@
       <p class="wrap stage-note">Ekranlar canlı: saat ve vakitler şu an İstanbul için yaklaşık hesaplanıyor. Uygulama senin konumunu kullanır; izin vermezsen İstanbul’la başlar.</p>
     </section>
 
+    <!-- EKRANLAR: uygulamadan gerçek görüntüler -->
+    <section class="gallery" aria-labelledby="ekran-baslik">
+      <div class="wrap gallery-head">
+        <h2 id="ekran-baslik">Uygulamanın içinden</h2>
+        <p>Akış, vakitler, temalar, yarışma, widget’lar ve profil. Kaydırarak bak.</p>
+      </div>
+      <ul class="gallery-track" data-gallery tabindex="0" aria-label="Uygulama ekranları">
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#241B13"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/feed.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Akış ekranı: altın tonlu arka planda Zümer 39:53'ten “Ne yaptıysan yap, Allah’ın rahmetinden ümidini kesme.”"></div></div><figcaption><b>Akış</b> Her kaydırışta yeni bir ayet, hadis ya da dua.</figcaption></figure></li>
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#29282B"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/prayer-times.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Namaz vakitleri ekranı: İstanbul için imsaktan yatsıya altı vakit ve sıradaki vakte kalan süre."></div></div><figcaption><b>Vakitler</b> Diyanet yöntemiyle, telefonda hesaplanır.</figcaption></figure></li>
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#29282B"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/themes.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Temalar ekranı: Altın deniz, Koyu, Krem, Seher, Gün batımı, Kadir gecesi gibi tema kartları."></div></div><figcaption><b>Temalar</b> Seherden Kadir gecesine, canlı temalar dahil.</figcaption></figure></li>
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#29282B"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/quiz.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Yarışma ekranı: “Bilesiniz ki kalpler ancak Allah’ı anmakla ___ bulur.” sorusu ve dört seçenek."></div></div><figcaption><b>Yarışma</b> Ayeti tamamla, siyeri hatırla.</figcaption></figure></li>
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#29282B"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/widgets.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Widget'lar ekranı: Günün Ayeti widget'ı ve 12 günlük seri widget'ının önizlemeleri."></div></div><figcaption><b>Widget’lar</b> Ana ekranda ve kilit ekranında.</figcaption></figure></li>
+        <li><figure><div class="phone"><div class="shot-screen" style="--top:#29282B"><span class="sb" aria-hidden="true"><span>9:41</span><span class="status-r"><i></i><i></i><i></i></span></span><img class="screen-img" src="assets/ekran/profile.webp" width="540" height="1169" loading="lazy" decoding="async" alt="Profil ekranı: 12 günlük seri, haftanın günleri ve Kur’an ve Siyer yarışması kartı."></div></div><figcaption><b>Profil</b> Serin, ayarların, yarışma.</figcaption></figure></li>
+      </ul>
+      <div class="wrap gallery-nav">
+        <button type="button" class="round-btn" data-gallery-prev aria-label="Önceki ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="round-btn" data-gallery-next aria-label="Sonraki ekran"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </section>
+
     <!-- WIDGET -->
     <section class="band band-widgets" aria-labelledby="widget-baslik">
       <div class="wrap split">
@@ -197,6 +230,26 @@
       </div>
     </section>
 
+    <!-- TANITIM VİDEOSU -->
+    <section id="tanitim" class="band band-video" aria-labelledby="video-baslik">
+      <div class="wrap split">
+        <div class="split-text">
+          <h2 id="video-baslik">On üç saniyede Hadıra.</h2>
+          <p>Seherden geceye bir gün: kilit ekranında sıradaki vakit, serin, gün içinde gelen bir zikir.</p>
+          <p class="video-note">Sessiz video. Oynatmak ya da durdurmak için üstüne dokun.</p>
+        </div>
+        <div class="phone phone-lg phone-video">
+          <video class="screen-img" data-video muted loop playsinline preload="none" poster="assets/video/hadira-tanitim-kapak.webp" width="540" height="960" aria-label="Hadıra tanıtım videosu: kemerli bir pencerede seher, telefonun kilit ekranında vakit ve seri widget'ları, gece ve Hadıra adı.">
+            <source src="assets/video/hadira-tanitim.mp4" type="video/mp4">
+          </video>
+          <button type="button" class="video-toggle" data-video-toggle aria-label="Videoyu oynat" aria-pressed="false">
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- YARIŞMA -->
     <section class="band band-quiz" aria-labelledby="quiz-baslik">
       <div class="wrap split">
@@ -259,6 +312,19 @@
           <p>Favoriler, seri, ayarlar ve yarışma cevapları bir sunucuya gitmez. Konum yalnızca namaz vakitleri için kullanılır.</p>
           <p>Abonelik doğrulanırken Apple ve RevenueCat’e anonim bir kimlik ile satın alma kaydı gider. Bu sitede çerez ya da ölçüm kodu yok.</p>
         </div>
+      </div>
+    </section>
+    <!-- İNDİR -->
+    <section id="indir" class="cta" aria-labelledby="indir-baslik">
+      <div class="wrap cta-inner">
+        <svg class="cta-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 29V15a10 10 0 0 1 20 0v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="18" r="3.2" fill="var(--gold)"/></svg>
+        <h2 id="indir-baslik" data-cta-title>Hadıra yakında App Store’da.</h2>
+        <p data-cta-text>iPhone için hazırlanıyor. Yayına girdiğinde bu düğme seni doğrudan App Store sayfasına götürecek.</p>
+        <a class="store-btn store-btn-light" href="#indir" data-store>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span class="store-txt"><small data-store-small>iPhone için</small><span data-store-label>App Store’da yakında</span></span>
+        </a>
+        <p class="cta-mail">Haber almak ya da soru sormak için: <a href="mailto:destek@hadira.app">destek@hadira.app</a></p>
       </div>
     </section>
   </main>

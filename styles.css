@@ -69,8 +69,29 @@ button { font: inherit; color: inherit; }
 .header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 600 1.375rem/1 var(--serif); letter-spacing: -0.02em; }
 .brand-mark { width: 28px; height: 28px; }
-.store-soon { margin: 0; display: inline-flex; align-items: center; gap: 8px; font: 500 .875rem/1 var(--sans); color: var(--ink-2); padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; cursor: default; }
-.store-soon .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+.site-header { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: box-shadow .3s; }
+.site-header.scrolled { box-shadow: 0 1px 0 var(--line); }
+
+/* App Store button (own design, not Apple's badge; swap for the official badge once the app is live) */
+.store-btn {
+  display: inline-flex; align-items: center; gap: 12px; text-decoration: none;
+  background: var(--ink); color: var(--paper); border-radius: 14px; padding: 11px 20px 11px 16px;
+  font: 500 1.0625rem/1.1 var(--sans); letter-spacing: -0.01em;
+  box-shadow: 0 1px 0 rgb(0 0 0 / .1), 0 12px 24px -12px rgb(20 18 16 / .5);
+  transition: transform .2s, box-shadow .2s;
+}
+.store-btn svg { width: 26px; height: 26px; flex: none; }
+.store-btn .store-txt { display: flex; flex-direction: column; gap: 3px; }
+.store-btn small { font: 400 .75rem/1 var(--sans); opacity: .7; letter-spacing: .02em; }
+.store-btn:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgb(0 0 0 / .1), 0 18px 30px -14px rgb(20 18 16 / .6); }
+.store-btn:active { transform: translateY(0) scale(.98); }
+.store-btn-sm { padding: 8px 14px 8px 11px; border-radius: 999px; font-size: .875rem; gap: 7px; box-shadow: none; }
+.store-btn-sm svg { width: 18px; height: 18px; }
+.store-btn-light { background: var(--gold); color: #1E1D1B; }
+.store-btn[data-live] { background: #000; color: #fff; }
+.text-link { color: var(--ink); font-weight: 500; text-decoration: none; border-bottom: 1.5px solid var(--gold); padding-bottom: 2px; }
+.text-link span { display: inline-block; transition: transform .2s; }
+.text-link:hover span { transform: translateX(4px); }
 
 /* ---------- hero ---------- */
 .hero-top { display: grid; gap: 18px; padding-top: 28px; padding-bottom: 40px; }
@@ -78,6 +99,45 @@ button { font: inherit; color: inherit; }
 .hero h1 { font-size: clamp(2.7rem, 8vw, 5.6rem); letter-spacing: -0.04em; }
 .hero h1 em { font-style: italic; font-weight: 400; color: var(--gold-text); }
 .lede { font-size: 1.125rem; color: var(--ink-2); max-width: 34ch; margin: 0; }
+.hero-side { display: grid; gap: 22px; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+
+/* ---------- gallery: real screens from the app ---------- */
+.gallery { padding: 88px 0 72px; overflow: hidden; }
+.gallery-head { display: grid; gap: 10px; margin-bottom: 36px; }
+@media (min-width: 820px) { .gallery-head { grid-template-columns: 1fr auto; align-items: end; gap: 40px; } }
+.gallery-head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+.gallery-head p { margin: 0; color: var(--ink-2); max-width: 36ch; }
+.gallery-track {
+  list-style: none; margin: 0; display: flex; gap: 28px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth;
+  padding: 12px max(20px, calc((100vw - 1180px) / 2 + 36px)) 28px;
+  scroll-padding-inline: max(20px, calc((100vw - 1180px) / 2 + 36px));
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+.gallery-track:focus-visible { outline-offset: -3px; }
+.gallery-track li { flex: 0 0 auto; scroll-snap-align: start; }
+.gallery-track figure { margin: 0; }
+.gallery-track .phone { --w: 236px; }
+@media (min-width: 900px) { .gallery-track .phone { --w: 256px; } }
+.gallery-track figcaption { margin-top: 18px; max-width: 236px; font-size: .875rem; color: var(--ink-2); }
+.gallery-track figcaption b { display: block; color: var(--ink); font: 600 1.125rem/1.2 var(--serif); margin-bottom: 2px; }
+.screen-img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 13.5cqw; background: var(--app-bg); }
+/* app screenshots have no status bar: give them one so the island doesn't cover the app's header */
+.shot-screen { height: 100%; border-radius: 13.5cqw; overflow: hidden; background: var(--top); display: flex; flex-direction: column; color: #F4ECDF; }
+.shot-screen .sb { flex: none; height: 13cqw; display: flex; justify-content: space-between; align-items: center; padding: 0 9cqw; font: 500 4.4cqw/1 var(--sans); }
+.shot-screen .screen-img { flex: 1; min-height: 0; height: auto; border-radius: 0; object-fit: cover; object-position: top; }
+.gallery-track li:nth-child(even) { margin-top: 36px; }
+.gallery-nav { display: flex; gap: 10px; justify-content: flex-end; }
+.round-btn {
+  width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: var(--card); color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line); transition: background .2s, transform .15s, opacity .2s;
+}
+.round-btn svg { width: 22px; height: 22px; }
+.round-btn:hover { box-shadow: inset 0 0 0 1.5px var(--ink-2); }
+.round-btn:active { transform: scale(.94); }
+.round-btn:disabled { opacity: .35; cursor: default; }
 
 /* the stage: a band of sky with three phones standing in it */
 .stage {
@@ -320,6 +380,47 @@ button { font: inherit; color: inherit; }
 .swatches button[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--gold-text); }
 .swatches button:active { transform: scale(.96); }
 
+/* ---------- video ---------- */
+.band-video {
+  background:
+    radial-gradient(60% 50% at 80% 30%, rgb(232 184 102 / .16), transparent 70%),
+    linear-gradient(180deg, #0B1026 0%, #1C2A55 70%, #2B2440 100%);
+  color: #F4ECDF;
+}
+.band-video .split-text p { color: #C9C1B5; }
+.video-note { font-size: .875rem; }
+.phone-video { --w: min(300px, 74vw); aspect-ratio: 9 / 16.6; }
+@media (min-width: 900px) { .band-video .phone-video { --w: 320px; } }
+.phone-video::before { display: none; }
+.phone-video .screen-img { border-radius: 12cqw; background: #0B1026; cursor: pointer; }
+.video-toggle {
+  position: absolute; right: 7cqw; bottom: 7cqw; z-index: 4;
+  width: 48px; height: 48px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; color: #1E1D1B; background: rgb(250 241 223 / .92);
+  box-shadow: 0 6px 18px rgb(0 0 0 / .35); transition: transform .15s, opacity .3s;
+}
+.video-toggle svg { width: 22px; height: 22px; }
+.video-toggle .i-pause { display: none; }
+.video-toggle[aria-pressed="true"] .i-play { display: none; }
+.video-toggle[aria-pressed="true"] .i-pause { display: block; }
+.video-toggle[aria-pressed="true"] { opacity: .55; }
+.video-toggle:hover { opacity: 1; transform: scale(1.06); }
+
+/* ---------- final call to action ---------- */
+.cta {
+  padding: 96px 0; text-align: center; color: #F4ECDF;
+  background:
+    radial-gradient(70% 90% at 50% 120%, #C88F3C 0%, transparent 60%),
+    linear-gradient(180deg, #1B1712 0%, #3D2B16 100%);
+}
+.cta-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.cta-mark { width: 52px; height: 52px; color: #F4ECDF; }
+.cta h2 { font-size: clamp(2.2rem, 5.5vw, 4rem); max-width: 16ch; }
+.cta p { margin: 0; color: #D8CDBD; max-width: 46ch; }
+.cta .store-btn { margin-top: 8px; }
+.cta-mail { font-size: .9375rem; }
+.cta-mail a { color: #F2C98A; }
+
 /* ---------- plans ---------- */
 .plans-section { padding: 88px 0 56px; }
 .plans-section h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom: 32px; }
@@ -357,6 +458,10 @@ button { font: inherit; color: inherit; }
   .js .shot.in { opacity: 1; transform: none; }
   .js .shot:nth-child(2) { transition-delay: .08s; }
   .js .shot:nth-child(3) { transition-delay: .16s; }
+  .js .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .9s cubic-bezier(.2, .7, .2, 1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .gallery-track .phone { transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+  .gallery-track li:hover .phone { transform: translateY(-8px) rotate(-1deg); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }

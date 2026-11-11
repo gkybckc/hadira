@@ -210,4 +210,75 @@
       });
     }, { passive: true });
   }
+
+  /* ---------- App Store buttons: one id in <meta name="hadira-app-store-id"> turns them all live ---------- */
+  var storeMeta = $('meta[name="hadira-app-store-id"]');
+  var storeId = storeMeta && /^\d+$/.test(storeMeta.content.trim()) ? storeMeta.content.trim() : '';
+  if (storeId) {
+    var storeUrl = 'https://apps.apple.com/tr/app/id' + storeId;
+    $$('[data-store]').forEach(function (a) {
+      a.href = storeUrl; a.setAttribute('data-live', ''); a.rel = 'noopener';
+      $$('[data-store-label]', a).forEach(function (l) { l.textContent = 'App Store’dan indir'; });
+      $$('[data-store-small]', a).forEach(function (l) { l.textContent = 'iPhone için'; });
+    });
+    var ct = $('[data-cta-title]'), cx = $('[data-cta-text]');
+    if (ct) ct.textContent = 'Hadıra App Store’da.';
+    if (cx) cx.textContent = 'iPhone’una indir; namaz vakitleri ve vakit bildirimleri ücretsiz.';
+  }
+
+  /* ---------- sticky header shadow ---------- */
+  var header = $('.site-header');
+  if (header) {
+    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = $$('.gallery-head, .gallery-track li, .split-text, .split > .phone, .plans, .cta-inner > *');
+  if ('IntersectionObserver' in window && !reduce) {
+    revealEls.forEach(function (el) { el.classList.add('reveal'); });
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function (el) { ro.observe(el); });
+  }
+
+  /* ---------- gallery arrows ---------- */
+  var gal = $('[data-gallery]'), gp = $('[data-gallery-prev]'), gn = $('[data-gallery-next]');
+  if (gal && gp && gn) {
+    var step = function () { var li = $('li', gal); return li ? li.offsetWidth + 28 : 260; };
+    var sync = function () {
+      gp.disabled = gal.scrollLeft < 4;
+      gn.disabled = gal.scrollLeft + gal.clientWidth > gal.scrollWidth - 4;
+    };
+    gp.addEventListener('click', function () { gal.scrollBy({ left: -step(), behavior: reduce ? 'auto' : 'smooth' }); });
+    gn.addEventListener('click', function () { gal.scrollBy({ left: step(), behavior: reduce ? 'auto' : 'smooth' }); });
+    gal.addEventListener('scroll', function () { requestAnimationFrame(sync); }, { passive: true });
+    window.addEventListener('resize', sync); sync();
+  }
+
+  /* ---------- promo video: plays only while visible, never with reduced motion ---------- */
+  var vid = $('[data-video]'), vbtn = $('[data-video-toggle]');
+  if (vid && vbtn) {
+    var userPaused = reduce;
+    var setState = function () {
+      var on = !vid.paused;
+      vbtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      vbtn.setAttribute('aria-label', on ? 'Videoyu durdur' : 'Videoyu oynat');
+    };
+    var toggle = function () {
+      if (vid.paused) { userPaused = false; vid.play().catch(function () {}); }
+      else { userPaused = true; vid.pause(); }
+    };
+    vid.addEventListener('play', setState); vid.addEventListener('pause', setState);
+    vbtn.addEventListener('click', toggle); vid.addEventListener('click', toggle);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !userPaused) vid.play().catch(function () {});
+          else if (!e.isIntersecting && !vid.paused) vid.pause();
+        });
+      }, { threshold: 0.45 }).observe(vid);
+    }
+  }
 })();
