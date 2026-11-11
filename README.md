@@ -14,6 +14,16 @@ python -m http.server 8100 --bind 127.0.0.1
 
 Sonra http://localhost:8100 adresini aç.
 
+## Yayın paketi
+
+```bash
+node scripts/paketle.cjs
+```
+
+Site Cloudflare Workers'ta (`hadira` adlı worker) yayınlanır. Cloudflare panelinde Build command `node scripts/paketle.cjs`, Deploy command `npx wrangler deploy` olmalı; `wrangler.jsonc` yalnızca `yayin/` klasörünü yayınlar. Depo kökü yayınlanırsa `reklam/` ve README de herkese açılır.
+
+Betik yüklenecek her şeyi `yayin/` klasörüne toplar (depoya girmez). `reklam/` ve README pakete girmez. Yasal sayfalar uygulama deposunun `site/` klasöründen alınır; üzerinde "Yayınlamayın" uyarısı duran sayfa pakete konmaz.
+
 ## Dosyalar
 
 | Dosya | Ne |

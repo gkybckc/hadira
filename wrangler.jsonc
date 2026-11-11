@@ -1,0 +1,11 @@
+// Cloudflare Workers yayın ayarı. Yalnızca `yayin/` klasörü yayınlanır;
+// o klasörü `node scripts/paketle.cjs` üretir (reklam/, README vb. girmez).
+// Cloudflare panelinde: Build command = node scripts/paketle.cjs
+//                       Deploy command = npx wrangler deploy
+{
+  "name": "hadira",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./yayin"
+  }
+}
