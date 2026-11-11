@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hadıra reklam</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; background: #141311; color: #F4ECDF; font: 14px/1.4 system-ui, sans-serif; display: grid; place-items: center; gap: 12px; padding: 16px; box-sizing: border-box; }
+  canvas { height: min(86vh, 1920px); max-width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 12px; }
+  .bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  button { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid #5C5347; background: #2B2A28; color: inherit; cursor: pointer; }
+  input[type=range] { width: 240px; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920" aria-label="Hadıra tanıtım animasyonu"></canvas>
+<div class="bar">
+  <button id="play" type="button">Oynat</button>
+  <input id="seek" type="range" min="0" max="13" step="0.05" value="0" aria-label="Zaman">
+  <span id="tlabel">0.0 s</span>
+  <button id="rec" type="button">Kaydet</button>
+  <span id="status" aria-live="polite"></span>
+</div>
+<script>
+'use strict';
+const W = 1080, H = 1920, D = 13;
+const c = document.getElementById('c'), x = c.getContext('2d');
+
+/* ---------- helpers ---------- */
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const prog = (t, a, b) => ease(clamp((t - a) / (b - a)));
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, k) => { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(',')})`; };
+const mixRGB = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
+
+// Theme palettes from src/data/themes.ts
+const DAWN = ['#9EB4D6', '#D9C2B4', '#F2C9A0'];    // Seher
+const DUSK = ['#3A2A3F', '#B2593C', '#F0A35E'];    // Gün batımı
+const NIGHT = ['#0B1026', '#1C2A55', '#3B3F7A'];   // Kadir gecesi
+function skyAt(t) {
+  const a = prog(t, 0.5, 4.2), b = prog(t, 4.6, 8.0);
+  return [0, 1, 2].map(i => b > 0 ? mix(DUSK[i], NIGHT[i], b) : mix(DAWN[i], DUSK[i], a));
+}
+
+// fixed pseudo-random stars
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const STARS = Array.from({ length: 70 }, () => ({ x: 240 + rnd() * 600, y: 280 + rnd() * 900, r: 1.2 + rnd() * 2.6, p: rnd() * 6.28, gold: rnd() < .12 }));
+
+/* ---------- geometry ---------- */
+const AX = 540, AW = 620, AT = 250, AB = 1480, AR = AW / 2;
+function archPath(inset = 0) {
+  const l = AX - AR + inset, r = AX + AR - inset, rr = AR - inset;
+  x.beginPath();
+  x.moveTo(l, AB); x.lineTo(l, AT + AR); x.arc(AX, AT + AR, rr, Math.PI, 0); x.lineTo(r, AB); x.closePath();
+}
+function rrect(px, py, w, h, r) { x.beginPath(); x.roundRect(px, py, w, h, r); }
+
+function text(str, px, py, font, color, align = 'center', alpha = 1, spacing = 0) {
+  x.save(); x.globalAlpha *= alpha; x.font = font; x.fillStyle = color; x.textAlign = align; x.textBaseline = 'alphabetic';
+  if (spacing) x.letterSpacing = spacing + 'px';
+  x.fillText(str, px, py); x.restore();
+}
+
+/* ---------- scene ---------- */
+function wall(t) {
+  const g = x.createRadialGradient(AX, 900, 200, AX, 900, 1300);
+  g.addColorStop(0, '#2E2C29'); g.addColorStop(1, '#151412');
+  x.fillStyle = g; x.fillRect(-200, -200, W + 400, H + 400);
+  // warm spill of the sky on the wall
+  const sky = skyAt(t);
+  const s = x.createRadialGradient(AX, 1000, 100, AX, 1000, 900);
+  s.addColorStop(0, sky[2].replace('rgb', 'rgba').replace(')', ',.18)')); s.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = s; x.fillRect(-200, -200, W + 400, H + 400);
+}
+
+function skyInArch(t) {
+  x.save(); archPath(0); x.clip();
+  const sky = skyAt(t);
+  const g = x.createLinearGradient(0, AT, 0, AB);
+  g.addColorStop(0, sky[0]); g.addColorStop(.58, sky[1]); g.addColorStop(1, sky[2]);
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+
+  // sun: rises a little, then sets behind the sill
+  const sy = 1180 - 260 * prog(t, 0, 2.2) + 760 * prog(t, 2.4, 6.4);
+  const sc = mixRGB(hex('#FBE3AE'), hex('#E8843F'), prog(t, 1.5, 5.5));
+  const sun = `rgb(${sc.map(Math.round).join(',')})`;
+  const halo = x.createRadialGradient(AX, sy, 0, AX, sy, 330);
+  halo.addColorStop(0, `rgba(${sc.map(Math.round).join(',')},.55)`); halo.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = halo; x.fillRect(0, 0, W, H);
+  x.fillStyle = sun; x.beginPath(); x.arc(AX, sy, 74, 0, 7); x.fill();
+
+  // stars
+  const sa = prog(t, 5.6, 8.2);
+  if (sa > 0) STARS.forEach(s => {
+    x.globalAlpha = sa * (.55 + .45 * Math.sin(t * 2.2 + s.p));
+    x.fillStyle = s.gold ? '#E8B866' : '#F4ECDF';
+    x.beginPath(); x.arc(s.x, s.y, s.r, 0, 7); x.fill();
+  });
+  x.globalAlpha = 1;
+  // far horizon line
+  x.fillStyle = 'rgba(20,18,16,.35)'; x.fillRect(0, AB - 70, W, 70);
+  x.restore();
+
+  // stone reveal (thickness of the wall)
+  x.save(); archPath(0); x.lineWidth = 34; x.strokeStyle = '#3A3632'; x.stroke();
+  archPath(-17); x.lineWidth = 2; x.strokeStyle = 'rgba(244,236,223,.08)'; x.stroke(); x.restore();
+}
+
+function sill(t) {
+  const g = x.createLinearGradient(0, AB, 0, AB + 70);
+  g.addColorStop(0, '#433D37'); g.addColorStop(1, '#1E1C1A');
+  x.fillStyle = g; x.fillRect(AX - AR - 70, AB, AW + 140, 70);
+  // kandil on the sill, brighter as it gets dark
+  const k = .35 + .65 * prog(t, 4.5, 8.5);
+  const fl = 1 + .06 * Math.sin(t * 13) + .04 * Math.sin(t * 7.3);
+  const kx = AX + 190, ky = AB - 14;
+  const glow = x.createRadialGradient(kx, ky - 30, 0, kx, ky - 30, 260 * fl);
+  glow.addColorStop(0, `rgba(232,184,102,${.55 * k})`); glow.addColorStop(1, 'rgba(232,184,102,0)');
+  x.fillStyle = glow; x.fillRect(kx - 300, ky - 330, 600, 600);
+  x.fillStyle = '#8A5A17'; x.beginPath(); x.ellipse(kx, ky, 46, 16, 0, 0, Math.PI); x.fill();
+  x.fillStyle = '#B98A3E'; x.beginPath(); x.ellipse(kx, ky, 46, 9, 0, 0, 7); x.fill();
+  x.fillStyle = `rgba(255,226,160,${.75 + .25 * k})`;
+  x.beginPath(); x.ellipse(kx - 30, ky - 22 * fl, 9, 22 * fl, -.15, 0, 7); x.fill();
+}
+
+/* phone with the lock screen, rises in front of the arch */
+function phone(t) {
+  const up = prog(t, 2.6, 4.0), down = prog(t, 7.0, 7.9);
+  if (up <= 0 || down >= 1) return;
+  const pw = 470, ph = 1018, px = AX - pw / 2;
+  const py = 560 + (1 - up) * 1500 + down * 1500;
+  x.save();
+  x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = 80; x.shadowOffsetY = 40;
+  rrect(px, py, pw, ph, 76); x.fillStyle = '#141311'; x.fill();
+  x.restore();
+  x.save();
+  rrect(px + 14, py + 14, pw - 28, ph - 28, 64); x.clip();
+  const g = x.createLinearGradient(0, py, 0, py + ph);
+  g.addColorStop(0, '#0B1026'); g.addColorStop(.6, '#1C2A55'); g.addColorStop(1, '#3B3F7A');
+  x.fillStyle = g; x.fillRect(px, py, pw, ph);
+  const glow = x.createRadialGradient(AX, py + ph + 80, 0, AX, py + ph + 80, 420);
+  glow.addColorStop(0, 'rgba(92,58,18,.9)'); glow.addColorStop(1, 'rgba(92,58,18,0)');
+  x.fillStyle = glow; x.fillRect(px, py, pw, ph);
+  STARS.slice(0, 18).forEach(s => { x.fillStyle = 'rgba(244,236,223,.7)'; x.beginPath(); x.arc(px + (s.x - 240) * .75, py + 60 + (s.y - 280) * .35, s.r * .7, 0, 7); x.fill(); });
+  // island
+  rrect(AX - 70, py + 30, 140, 40, 20); x.fillStyle = '#050505'; x.fill();
+  // date + clock (minute ticks during the beat)
+  text('Salı 10 Kasım', AX, py + 170, '500 30px "DM Sans"', 'rgba(244,236,223,.85)');
+  const mins = 9 + Math.floor(prog(t, 4.2, 6.6) * 2);
+  text('17:' + String(mins).padStart(2, '0'), AX, py + 320, '500 150px "DM Sans"', '#F4ECDF', 'center', 1, -4);
+  // widget: next prayer with countdown
+  const wy = py + 380;
+  rrect(px + 40, wy, pw - 200, 130, 30); x.fillStyle = 'rgba(255,255,255,.14)'; x.fill();
+  text('AKŞAM', px + 72, wy + 46, '500 22px "DM Sans"', 'rgba(244,236,223,.8)', 'left', 1, 2);
+  text('17:57', px + 72, wy + 104, '600 50px Fraunces', '#F4ECDF', 'left');
+  text((48 - (mins - 9)) + ' dk', px + 232, wy + 102, '500 28px "DM Sans"', '#E8B866', 'left');
+  // streak ring
+  const cx = px + pw - 98, cy = wy + 65;
+  x.beginPath(); x.arc(cx, cy, 56, 0, 7); x.fillStyle = 'rgba(255,255,255,.14)'; x.fill();
+  x.lineWidth = 7; x.lineCap = 'round';
+  x.beginPath(); x.arc(cx, cy, 46, 0, 7); x.strokeStyle = 'rgba(255,255,255,.2)'; x.stroke();
+  x.beginPath(); x.arc(cx, cy, 46, -Math.PI / 2, -Math.PI / 2 + 6.28 * (.6 + .25 * prog(t, 4.6, 5.6))); x.strokeStyle = '#E8B866'; x.stroke();
+  text('12', cx, cy + 12, '600 34px Fraunces', '#F4ECDF');
+  // zikir notification card slides in
+  const n = prog(t, 4.8, 5.5);
+  if (n > 0) {
+    x.save(); x.globalAlpha = n;
+    const ny = wy + 175 + (1 - n) * 40;
+    rrect(px + 40, ny, pw - 80, 190, 30); x.fillStyle = 'rgba(250,241,223,.94)'; x.fill();
+    text('HADIRA · ZİKİR', px + 72, ny + 50, '500 20px "DM Sans"', '#6B5A3E', 'left', 1, 2);
+    text('Sübhânallâhi', px + 72, ny + 110, '600 42px Fraunces', '#1E1D1B', 'left');
+    text('ve bihamdihî', px + 72, ny + 160, '600 42px Fraunces', '#1E1D1B', 'left');
+    x.restore();
+  }
+  x.restore();
+}
+
+function slogan(t) {
+  const a = prog(t, 7.6, 8.6) * (1 - prog(t, 10.0, 10.6));
+  if (a <= 0) return;
+  const lift = (1 - prog(t, 7.6, 8.6)) * 30;
+  text('Kalbin her an', AX, 1700 + lift, '600 92px Fraunces', '#F4ECDF', 'center', a, -2);
+  x.save(); x.globalAlpha = a; x.font = 'italic 400 96px Fraunces'; const w1 = x.measureText('Allah’ı ').width;
+  x.font = '600 92px Fraunces'; const w2 = x.measureText('ansın.').width; x.restore();
+  const sx = AX - (w1 + w2) / 2;
+  text('Allah’ı ', sx, 1810 + lift, 'italic 400 96px Fraunces', '#E8B866', 'left', a);
+  text('ansın.', sx + w1, 1810 + lift, '600 92px Fraunces', '#F4ECDF', 'left', a, -2);
+}
+
+function endCard(t) {
+  const a = prog(t, 10.2, 11.0);
+  if (a <= 0) return;
+  x.save(); x.globalAlpha = a;
+  x.fillStyle = 'rgba(20,19,17,.82)'; x.fillRect(0, 0, W, H);
+  // brand mark: arch + gold dot
+  const my = 700 - (1 - a) * 30;
+  x.lineWidth = 16; x.lineCap = 'round'; x.strokeStyle = '#F4ECDF';
+  x.beginPath(); x.moveTo(AX - 80, my + 120); x.lineTo(AX - 80, my); x.arc(AX, my, 80, Math.PI, 0); x.lineTo(AX + 80, my + 120); x.stroke();
+  x.fillStyle = '#E8B866'; x.beginPath(); x.arc(AX, my + 24, 26, 0, 7); x.fill();
+  text('Hadıra', AX, my + 330, '600 168px Fraunces', '#F4ECDF', 'center', 1, -5);
+  text('Ayet · hadis · dua · zikir · namaz vakitleri', AX, my + 420, '400 38px "DM Sans"', 'rgba(244,236,223,.78)');
+  const b = prog(t, 11.0, 11.6);
+  x.globalAlpha = a * b;
+  rrect(AX - 300, my + 520, 600, 96, 48); x.lineWidth = 3; x.strokeStyle = 'rgba(232,184,102,.9)'; x.stroke();
+  text('iPhone için · App Store’da yakında', AX, my + 581, '500 34px "DM Sans"', '#E8B866');
+  x.restore();
+}
+
+function draw(t) {
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  x.clearRect(0, 0, W, H);
+  const s = 1 + .1 * prog(t, 0, 10);
+  x.setTransform(s, 0, 0, s, AX * (1 - s), 1000 * (1 - s));
+  wall(t); skyInArch(t); sill(t);
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  phone(t); slogan(t); endCard(t);
+  // fade in from black / out at the very end
+  const fade = 1 - prog(t, 0, .6);
+  if (fade > 0) { x.fillStyle = `rgba(0,0,0,${fade})`; x.fillRect(0, 0, W, H); }
+}
+
+/* ---------- player + recorder ---------- */
+const seek = document.getElementById('seek'), tl = document.getElementById('tlabel'), st = document.getElementById('status');
+let playing = false, t0 = 0, cur = 0;
+function frame(now) {
+  if (!playing) return;
+  cur = (now - t0) / 1000;
+  if (cur >= D) { cur = D; playing = false; }
+  draw(cur); seek.value = cur; tl.textContent = cur.toFixed(1) + ' s';
+  if (playing) requestAnimationFrame(frame);
+}
+function play(from = 0) { playing = true; t0 = performance.now() - from * 1000; requestAnimationFrame(frame); }
+document.getElementById('play').onclick = () => play(cur >= D ? 0 : cur);
+seek.oninput = () => { playing = false; cur = +seek.value; draw(cur); tl.textContent = cur.toFixed(1) + ' s'; };
+window.drawAt = t => { playing = false; cur = t; draw(t); };
+
+// Saves to a local receiver (scratch script, 127.0.0.1:8101) during production only.
+async function save(name, blob) {
+  const r = await fetch('http://127.0.0.1:8101/save?name=' + encodeURIComponent(name), { method: 'POST', body: blob });
+  return r.ok;
+}
+async function record() {
+  const types = ['video/mp4;codecs=avc1.640028', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+  const mime = types.find(m => MediaRecorder.isTypeSupported(m));
+  const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm';
+  const stream = c.captureStream(30);
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 10e6 });
+  const chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const done = new Promise(res => rec.onstop = res);
+  st.textContent = 'Kaydediliyor (' + mime + ')…';
+  rec.start(250);
+  play(0);
+  await new Promise(res => setTimeout(res, D * 1000 + 600));
+  rec.stop(); await done;
+  const blob = new Blob(chunks, { type: mime });
+  const ok = await save('hadira-reklam.' + ext, blob).catch(() => false);
+  st.textContent = ok ? `Kaydedildi: hadira-reklam.${ext} (${(blob.size / 1e6).toFixed(1)} MB)` : 'Kayıt sunucusuna ulaşılamadı';
+  return { ok, mime, size: blob.size };
+}
+window.recordAd = record;
+window.savePoster = async (t, name) => { drawAt(t); const b = await new Promise(r => c.toBlob(r, 'image/png')); return save(name, b); };
+document.getElementById('rec').onclick = record;
+
+document.fonts.load('600 40px Fraunces').then(() => Promise.all([
+  document.fonts.load('italic 400 40px Fraunces'), document.fonts.load('400 40px "DM Sans"'), document.fonts.load('500 40px "DM Sans"')
+])).then(() => { window.fontsReady = true; draw(0.8); });
+</script>
+<style>
+@font-face { font-family: "Fraunces"; src: url("../assets/fonts/Fraunces_600SemiBold.woff") format("woff"); font-weight: 600; }
+@font-face { font-family: "Fraunces"; src: url("../assets/fonts/Fraunces_400Regular_Italic.woff") format("woff"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "DM Sans"; src: url("../assets/fonts/DMSans_400Regular.woff") format("woff"); font-weight: 400; }
+@font-face { font-family: "DM Sans"; src: url("../assets/fonts/DMSans_500Medium.woff") format("woff"); font-weight: 500; }
+</style>
+</body>
+</html>

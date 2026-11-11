@@ -1,0 +1,48 @@
+# Hadıra tanıtım sitesi
+
+`https://hadira.app` için tek sayfalık, statik tanıtım sitesi. Alan adı `hadira.app` bize ait, `destek@hadira.app` adresi çalışıyor. Site henüz bir barındırmaya yüklenmedi.
+
+Uygulamanın kaynağı ayrı depoda (`islami-uygulama`); bu depo yalnızca web sitesidir. İlk sürüm oradaki `landing/` klasöründen kopyalandı, bundan sonra burası esastır.
+
+## Önizleme
+
+Depo kökünde:
+
+```bash
+python -m http.server 8100 --bind 127.0.0.1
+```
+
+Sonra http://localhost:8100 adresini aç.
+
+## Dosyalar
+
+| Dosya | Ne |
+|---|---|
+| `index.html` | Sayfa: üç canlı telefon ekranı (kilit ekranı, akış, vakitler), widget'lar, tema seçici, yarışma, Ücretsiz/Premium, veri notu, alt bilgi |
+| `app.js` | Ekranları canlandırır: İstanbul saati, sayfada hesaplanan yaklaşık namaz vakitleri ve geri sayım, kendi kendine kayan akış (dokununca favori), çan düğmeleri, tema değiştirici, 3 örnek soruluk yarışma. Ağ isteği, depolama, çerez yok. JS kapalıysa sabit örnek değerler görünür |
+| `styles.css` | Tüm stil. Açık tema uygulamanın "Krem", koyu tema uygulamanın kömür/altın renkleri (uygulamadaki `tailwind.config.js`, `src/lib/tokens.ts`, `src/data/themes.ts`) |
+| `assets/fonts/` | Fraunces 600 + 400 italik, DM Sans 400 + 500. Uygulamanın kendi yazı tipleri, uygulamadaki `@expo-google-fonts` paketlerinden Türkçe karakterlerle alt kümelendi (.woff). Lisans: SIL OFL, metinleri yanında |
+| `assets/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | Site simgesi (kemer + altın nokta). Uygulama simgesi değildir |
+| `assets/og.png` | 1200×630 paylaşım görseli |
+
+Framework, harici istek, çerez, analitik, izleyici yok. `prefers-reduced-motion` açıksa akış kendi kaymaz, giriş ve paralaks hareketleri kapanır. Google Fonts kullanılmıyor.
+
+## Hâlâ yer tutucu olanlar
+
+- **App Store rozeti:** üst bilgideki tıklanamayan "App Store’da yakında" etiketi. App Store Connect'te uygulama kimliği oluşunca Apple'ın resmî rozetiyle (Apple'ın rozet kurallarına göre) `https://apps.apple.com/tr/app/id<APP_STORE_ID>` bağlantısı konacak. Aynı kimlik `src/config/app.ts` → `APP_STORE_ID` alanına da yazılacak.
+- **Canlı vakitler yaklaşık:** `app.js` İstanbul için güneş konumundan hesaplıyor (imsak 18°, yatsı 17°, Şafii ikindi, Diyanet'e benzer dakika düzeltmeleri). Diyanet takvimiyle birkaç dakika fark edebilir; sayfada "yaklaşık" diye yazıyor. Uygulamanın kendi hesabıyla (`src/lib/prayer.ts`) karşılaştırılmalı.
+- **Örnek içerik:** akıştaki ve widget'taki zikirler, seri sayısı (12 gün) ve üç yarışma sorusu temsilîdir.
+- **Telif:** `© 2026 Hadıra` satırı, şirket/şahıs adı netleşince güncellenecek.
+- **Alt bilgi bağlantıları:** `gizlilik.html`, `kullanim-kosullari.html`, `kvkk.html`, `destek.html` göreli bağlantılar. Bu sayfalar uygulama deposunda `npm run site:export` ile `site/` klasörüne üretiliyor. Şu anki çıktıların hepsinde "Taslak: yayınlamayın" uyarısı olduğu için bu depoya **konmadı**; onaylanınca kök dizine kopyalanacak. O zamana kadar bu bağlantılar 404 verir.
+
+## Açık işler (yayından önce)
+
+1. **Barındırma:** `hadira.app` alındı; statik barındırma seçilecek (ör. Cloudflare Pages, Netlify, GitHub Pages) ve DNS bağlanacak. `.app` HSTS ön yüklü olduğu için HTTPS zorunlu. `reklam/` klasörü yayına çıkmamalı (yayın ayarında hariç tutulmalı ya da depodan ayrılmalı).
+2. **App Store bağlantısı:** uygulama kimliği oluşunca (yukarıya bak).
+3. **Yasal metinler TASLAK:** üretilen gizlilik, kullanım koşulları, KVKK ve destek sayfalarında hâlâ "Taslak: bu metin henüz onaylanmadı. Yayınlamayın." yazıyor. Bu sayfadaki "Verilerin telefonunda kalır" bölümü de o metinlerle birlikte gözden geçirilmeli (konum, RevenueCat, cihazda kalan veri).
+4. **İçerik onayı:** sayfada meal metni yok (meal lisansı çözülmedi). Sayfadaki zikirler (Sübhânallâhi ve bihamdihî, Elhamdülillâh, Lâ ilâhe illallah, Allâhu ekber, Estağfirullah) ve üç yarışma sorusu ilim ehli onayından geçmeli.
+5. **Özellik listesi:** sayfa `docs/release/app-store-metadata.tr.json` ve `src/data/premium.ts` ile uyumlu yazıldı (uygulama deposu) (ücretsiz: 2 hatırlatma, Premium: 10; ücretsiz temalar Altın deniz, Koyu, Krem). Bunlardan biri değişirse sayfa da değişmeli.
+
+## Bilerek konmayanlar
+
+Fiyat ve deneme süresi (yalnızca mağaza gösterir), yorum/puan/indirme sayısı, basın logoları, e-posta kayıt formu, "reklamsız" vaadi, "yakında" özellikleri, kıble, ezan sesi, uygulama simgeleri, hesap/giriş, insan veya peygamber görseli, `assets/videos` ve `assets/audio` içeriği.

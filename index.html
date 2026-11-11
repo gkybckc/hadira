@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hadıra · Ayet, dua ve namaz vakitleri</title>
+  <meta name="description" content="Hadıra; ayet, hadis, dua ve zikirleri ana ekrana, kilit ekranına ve gün içindeki hatırlatmalara taşıyan bir iPhone uygulaması. Namaz vakitleri ve vakit bildirimleri ücretsiz.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1D1B" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://hadira.app/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="Hadıra">
+  <meta property="og:title" content="Hadıra · Kalbin her an Allah’ı ansın">
+  <meta property="og:description" content="Ayet, hadis, dua ve zikir akışı; ana ekran ve kilit ekranı widget’ları; namaz vakitleri ve vakit bildirimleri. iPhone için.">
+  <meta property="og:url" content="https://hadira.app/">
+  <meta property="og:image" content="https://hadira.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hadıra yazısı ve kemerli bir pencerede şafak gökyüzü">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/Fraunces_600SemiBold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#icerik">İçeriğe geç</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="./" aria-label="Hadıra ana sayfa">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 29V15a10 10 0 0 1 20 0v14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="18" r="3.2" fill="var(--gold)"/></svg>
+        <span>Hadıra</span>
+      </a>
+      <p class="store-soon" aria-label="App Store’da yakında. Uygulama henüz yayında değil.">
+        <span class="dot" aria-hidden="true"></span>App Store’da yakında
+      </p>
+    </div>
+  </header>
+
+  <main id="icerik">
+    <!-- HERO: üç canlı ekran -->
+    <section class="hero" aria-labelledby="hero-baslik">
+      <div class="wrap hero-top">
+        <h1 id="hero-baslik">Kalbin her an <em>Allah’ı</em> ansın.</h1>
+        <p class="lede">Ayet, hadis, dua ve zikir: kilit ekranında, ana ekranda, seçtiğin saatte. Namaz vakitleri de yanında. iPhone için.</p>
+      </div>
+
+      <div class="stage" data-stage>
+        <div class="stage-track">
+          <!-- 1. kilit ekranı -->
+          <figure class="shot">
+            <div class="phone">
+              <div class="screen lock" aria-hidden="true">
+                <div class="lock-date" data-date>Salı 10 Kasım</div>
+                <div class="lock-clock" data-clock>16:15</div>
+                <div class="lock-widgets">
+                  <div class="lw-rect">
+                    <span class="lw-k" data-next-name>Akşam</span>
+                    <span class="lw-v"><b data-next-time>17:57</b> <span data-next-left>1 sa 42 dk</span></span>
+                  </div>
+                  <div class="lw-circle" style="--p: .85"><b>12</b><span>gün</span></div>
+                </div>
+                <div class="lock-bottom"><i></i><i></i></div>
+              </div>
+            </div>
+            <figcaption><b>Kilit ekranı.</b> Sıradaki vakit ve kalan süre, telefonu açmadan.</figcaption>
+          </figure>
+
+          <!-- 2. akış (ortadaki, büyük) -->
+          <figure class="shot shot-main">
+            <div class="phone">
+              <div class="screen feed theme-deniz" data-feed>
+                <div class="status" aria-hidden="true"><span data-clock>16:15</span><span class="status-r"><i></i><i></i><i></i></span></div>
+                <div class="feed-top" aria-hidden="true"><span>Akış</span><span class="pill" data-feed-cat>Zikir</span></div>
+                <div class="feed-viewport">
+                  <ol class="feed-list" data-feed-list>
+                    <li><span class="cat">Zikir</span><p>Sübhânallâhi ve bihamdihî</p></li>
+                    <li><span class="cat">Zikir</span><p>Elhamdülillâh</p></li>
+                    <li><span class="cat">Zikir</span><p>Lâ ilâhe illallah</p></li>
+                    <li><span class="cat">Zikir</span><p>Allâhu ekber</p></li>
+                    <li><span class="cat">Zikir</span><p>Estağfirullah</p></li>
+                  </ol>
+                </div>
+                <div class="feed-actions">
+                  <button type="button" class="icon-btn" data-fav aria-pressed="false" aria-label="Favorilere ekle">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+                  </button>
+                  <button type="button" class="icon-btn" data-feed-next aria-label="Sonraki içerik">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+                <div class="feed-dots" aria-hidden="true" data-feed-dots></div>
+              </div>
+            </div>
+            <figcaption><b>Akış.</b> Ayet, ayetten ilham, hadis, dua ve zikir. Kalbe dokun, favorilere girsin.</figcaption>
+          </figure>
+
+          <!-- 3. vakitler -->
+          <figure class="shot">
+            <div class="phone">
+              <div class="screen times" data-times>
+                <div class="status" aria-hidden="true"><span data-clock>16:15</span><span class="status-r"><i></i><i></i><i></i></span></div>
+                <div class="times-head">
+                  <span class="times-city">İstanbul</span>
+                  <span class="times-left"><span data-next-name>Akşam</span> vaktine <b data-next-left>1 sa 42 dk</b></span>
+                </div>
+                <ul class="times-list">
+                  <li data-vakit="0"><span>İmsak</span><b>06:11</b><button type="button" class="bell" aria-pressed="true" aria-label="İmsak bildirimi"></button></li>
+                  <li data-vakit="1"><span>Güneş</span><b>07:39</b><button type="button" class="bell" aria-pressed="false" aria-label="Güneş bildirimi"></button></li>
+                  <li data-vakit="2"><span>Öğle</span><b>12:53</b><button type="button" class="bell" aria-pressed="true" aria-label="Öğle bildirimi"></button></li>
+                  <li data-vakit="3"><span>İkindi</span><b>15:32</b><button type="button" class="bell" aria-pressed="false" aria-label="İkindi bildirimi"></button></li>
+                  <li data-vakit="4" class="is-next"><span>Akşam</span><b>17:57</b><button type="button" class="bell" aria-pressed="true" aria-label="Akşam bildirimi"></button></li>
+                  <li data-vakit="5"><span>Yatsı</span><b>19:19</b><button type="button" class="bell" aria-pressed="true" aria-label="Yatsı bildirimi"></button></li>
+                </ul>
+              </div>
+            </div>
+            <figcaption><b>Vakitler.</b> Konumuna göre hesaplanır, her vakit için bildirim ayrı açılır.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <p class="wrap stage-note">Ekranlar canlı: saat ve vakitler şu an İstanbul için yaklaşık hesaplanıyor. Uygulama senin konumunu kullanır; izin vermezsen İstanbul’la başlar.</p>
+    </section>
+
+    <!-- WIDGET -->
+    <section class="band band-widgets" aria-labelledby="widget-baslik">
+      <div class="wrap split">
+        <div class="phone phone-lg">
+          <div class="screen home" role="img" aria-label="Ana ekranda üç widget: sıradaki vakit, 12 günlük seri ve bir zikir.">
+            <div class="status" aria-hidden="true"><span data-clock>16:15</span><span class="status-r"><i></i><i></i><i></i></span></div>
+            <div class="home-grid" aria-hidden="true">
+              <div class="w w-vakit">
+                <span class="w-k">Sıradaki</span>
+                <span class="w-name" data-next-name>Akşam</span>
+                <span class="w-time" data-next-time>17:57</span>
+                <span class="w-left" data-next-left>1 sa 42 dk</span>
+              </div>
+              <div class="w w-seri">
+                <span class="w-k">Seri</span>
+                <span class="w-num">12</span>
+                <span class="w-week"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="today"></i></span>
+              </div>
+              <div class="w w-zikir">
+                <span class="w-k">Zikir</span>
+                <span class="w-text">Sübhânallâhi ve bihamdihî</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-text">
+          <h2 id="widget-baslik">Ekranın köşesinde dursun.</h2>
+          <p>Ana ekrana ve kilit ekranına widget koyarsın: sıradaki vakit, günün içeriği, serin. Widget’lar ücretsiz. Hangisinde ayet, hadis, dua, zikir ya da favorilerinin görüneceğini seçmek Premium’da.</p>
+          <p class="how">Eklemek için ana ekrana uzun bas → Düzenle → Widget Ekle → “Hadıra”.</p>
+          <dl class="facts">
+            <div><dt>Hatırlatma</dt><dd>Seçtiğin saatlerde kısa bir bildirim. Ücretsizde günde <b>2</b>, Premium’da <b>10</b>.</dd></div>
+            <div><dt>Seri</dt><dd>Kaç gündür açtığını sayar. Bir gün kaçarsa baştan.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMALAR -->
+    <section class="band band-themes" aria-labelledby="tema-baslik" data-themes>
+      <div class="wrap split split-rev">
+        <div class="split-text">
+          <h2 id="tema-baslik">Seher mi, gece mi?</h2>
+          <p>Akışın arka planını sen seçersin. Altın deniz, Koyu ve Krem ücretsiz; geri kalanı ve video temalar Premium’da. Aşağıdan birine dokun, telefon değişsin.</p>
+        </div>
+        <div class="phone phone-lg">
+          <div class="screen feed themed" data-theme-screen aria-hidden="true" style="--a:#1B1712;--b:#5A3F1C;--c:#C88F3C;--t:#FFF6E6">
+            <div class="status"><span data-clock>16:15</span><span class="status-r"><i></i><i></i><i></i></span></div>
+            <div class="feed-top"><span>Akış</span><span class="pill" data-theme-name>Altın deniz</span></div>
+            <div class="themed-body">
+              <span class="cat">Zikir</span>
+              <p>Elhamdülillâh</p>
+            </div>
+            <div class="themed-foot">yukarı kaydır</div>
+          </div>
+        </div>
+        <div class="swatches" role="group" aria-label="Tema seç">
+            <button type="button" data-theme="deniz" aria-pressed="true" style="--a:#1B1712;--b:#5A3F1C;--c:#C88F3C;--t:#FFF6E6">Altın deniz</button>
+            <button type="button" data-theme="krem" aria-pressed="false" style="--a:#F4EEE3;--b:#EEE6D8;--c:#E9E0D0;--t:#2A2622">Krem</button>
+            <button type="button" data-theme="seher" aria-pressed="false" style="--a:#9EB4D6;--b:#D9C2B4;--c:#F2C9A0;--t:#2A2622">Seher</button>
+            <button type="button" data-theme="gunbatimi" aria-pressed="false" style="--a:#3A2A3F;--b:#B2593C;--c:#F0A35E;--t:#FFF6E6">Gün batımı</button>
+            <button type="button" data-theme="gece" aria-pressed="false" style="--a:#0B1026;--b:#1C2A55;--c:#3B3F7A;--t:#F4ECDF">Kadir gecesi</button>
+            <button type="button" data-theme="zumrut" aria-pressed="false" style="--a:#0E2A24;--b:#1F5546;--c:#2F7A62;--t:#F4ECDF">Zümrüt</button>
+            <button type="button" data-theme="cini" aria-pressed="false" style="--a:#0F3B57;--b:#1F6E8C;--c:#4E8FA8;--t:#FFFFFF">Çini</button>
+            <button type="button" data-theme="kandil" aria-pressed="false" style="--a:#20160E;--b:#5C3A12;--c:#E2A84B;--t:#FFF6E6">Kandil</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- YARIŞMA -->
+    <section class="band band-quiz" aria-labelledby="quiz-baslik">
+      <div class="wrap split">
+        <div class="phone phone-lg">
+          <div class="screen quiz" data-quiz>
+            <div class="status" aria-hidden="true"><span data-clock>16:15</span><span class="status-r"><i></i><i></i><i></i></span></div>
+            <div class="quiz-top"><span>Kur’an ve Siyer</span><span class="quiz-count" data-quiz-count>1 / 3</span></div>
+            <p class="quiz-q" data-quiz-q aria-live="polite">Kur’an-ı Kerim kaç sureden oluşur?</p>
+            <div class="quiz-opts" data-quiz-opts>
+              <button type="button">99</button>
+              <button type="button">114</button>
+              <button type="button">120</button>
+            </div>
+            <button type="button" class="quiz-next" data-quiz-next hidden>Sonraki soru</button>
+          </div>
+        </div>
+        <div class="split-text">
+          <h2 id="quiz-baslik">Bildiğini sına.</h2>
+          <p>Kur’an ve siyer üzerine sorular. Telefondaki üç soru örnek; cevaplamayı dene.</p>
+          <p>Yarışmanın bir kısmı ücretsiz, tamamı Premium’da. Cevapların telefonunda kalır.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- UCRETSIZ / PREMIUM -->
+    <section id="premium" class="plans-section" aria-labelledby="premium-baslik">
+      <div class="wrap">
+        <h2 id="premium-baslik">Ücretsiz kısım, Premium kısım</h2>
+        <div class="plans">
+          <div class="plan">
+            <h3>Ücretsiz</h3>
+            <ul>
+              <li>Ayet akışı</li>
+              <li>Namaz vakitleri ve vakit bildirimleri</li>
+              <li>Temel dualar</li>
+              <li>Widget’lar</li>
+              <li>Günde 2 hatırlatma</li>
+            </ul>
+          </div>
+          <div class="plan plan-premium">
+            <h3>Premium <span>aylık ya da yıllık abonelik</span></h3>
+            <ul>
+              <li>Hadis, dua ve zikirlerin tamamı</li>
+              <li>Tüm konular: tevekkül, sabır, şükür, rızık, aile…</li>
+              <li>Bütün temalar ve video temalar</li>
+              <li>Günde 10’a kadar hatırlatma</li>
+              <li>Kur’an ve Siyer yarışmasının tamamı</li>
+              <li>Widget’larda içerik seçimi</li>
+            </ul>
+          </div>
+        </div>
+        <p class="fine">Fiyatı App Store gösterir, satın almadan önce görürsün. Abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse yenilenir; iPhone’da Ayarlar → adın → Abonelikler’den yönetilir.</p>
+      </div>
+    </section>
+
+    <section class="veri" aria-labelledby="veri-baslik">
+      <div class="wrap veri-row">
+        <h2 id="veri-baslik">Verilerin telefonunda kalır</h2>
+        <div>
+          <p>Favoriler, seri, ayarlar ve yarışma cevapları bir sunucuya gitmez. Konum yalnızca namaz vakitleri için kullanılır.</p>
+          <p>Abonelik doğrulanırken Apple ve RevenueCat’e anonim bir kimlik ile satın alma kaydı gider. Bu sitede çerez ya da ölçüm kodu yok.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <a class="brand" href="./">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 29V15a10 10 0 0 1 20 0v14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="18" r="3.2" fill="var(--gold)"/></svg>
+          <span>Hadıra</span>
+        </a>
+        <p class="footer-mail">Soru ve öneriler: <a href="mailto:destek@hadira.app">destek@hadira.app</a></p>
+      </div>
+      <nav aria-label="Yasal ve destek">
+        <ul class="footer-links">
+          <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+          <li><a href="kullanim-kosullari.html">Kullanım Koşulları</a></li>
+          <li><a href="kvkk.html">KVKK Aydınlatma Metni</a></li>
+          <li><a href="destek.html">Destek</a></li>
+        </ul>
+      </nav>
+      <p class="copy">© 2026 Hadıra</p>
+    </div>
+  </footer>
+</body>
+</html>
