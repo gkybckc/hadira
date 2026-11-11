@@ -112,6 +112,8 @@
     var items = $$('li', list);
     var dots = $('[data-feed-dots]', feed);
     var fav = $('[data-fav]', feed);
+    var catPill = $('[data-feed-cat]', feed);
+    var feedFx = $('.fx', feed), themeTag = $('[data-theme-tag]', feed);
     var favs = {};
     var idx = 0, timer = null, visible = true, hover = false;
     items.forEach(function () { dots.appendChild(document.createElement('i')); });
@@ -119,6 +121,19 @@
       idx = (i + items.length) % items.length;
       list.style.transform = 'translateY(' + (-100 * idx) + '%)';
       $$('i', dots).forEach(function (d, j) { d.classList.toggle('on', j === idx); });
+      var cat = $('.cat', items[idx]);
+      if (catPill && cat) catPill.textContent = cat.textContent;
+      // each card wears one of the app's themes; most are Premium live themes
+      var it = items[idx], d = it.dataset;
+      if (d.a) {
+        feed.style.setProperty('--a', d.a); feed.style.setProperty('--b', d.b);
+        feed.style.setProperty('--c', d.c); feed.style.setProperty('--tint', d.tint);
+        if (feedFx) feedFx.setAttribute('data-fx', d.fx || '');
+        if (themeTag) {
+          themeTag.firstChild.nodeValue = d.name + ' ';
+          $('span', themeTag).textContent = it.hasAttribute('data-premium') ? (d.fx ? 'Premium · canlı' : 'Premium') : 'Ücretsiz';
+        }
+      }
       fav.setAttribute('aria-pressed', favs[idx] ? 'true' : 'false');
       fav.setAttribute('aria-label', favs[idx] ? 'Favorilerden çıkar' : 'Favorilere ekle');
     }
@@ -151,7 +166,10 @@
           setTimeout(function () { ghost.remove(); }, 700);
         }
         ['--a', '--b', '--c', '--t'].forEach(function (v) { themeScreen.style.setProperty(v, btn.style.getPropertyValue(v)); });
-        nameEl.textContent = btn.textContent;
+        themeScreen.style.setProperty('--tint', btn.style.getPropertyValue('--tint') || btn.style.getPropertyValue('--t'));
+        var tfx = $('.fx', themeScreen);
+        if (tfx) tfx.setAttribute('data-fx', btn.getAttribute('data-fx') || '');
+        nameEl.textContent = btn.firstChild.nodeValue;
         $$('[data-themes] [data-theme]').forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
       });
     });

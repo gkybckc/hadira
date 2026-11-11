@@ -43,7 +43,7 @@ Framework, harici istek, çerez, analitik, izleyici yok. `prefers-reduced-motion
 - **Ekran görüntüleri (`assets/ekran/`):** uygulamanın web önizlemesinden (Expo web, 390×844) alındı; gerçek iPhone görüntüsü değil. Mağaza görselleri gerçek cihazdan alınınca bunlar da değiştirilmeli. Kullanıcı hesabı ya da kişisel veri içermez.
 - **Tanıtım videosu (`assets/video/`):** `reklam/hadira-reklam.mp4` kopyası; sessiz, yalnızca görünürken oynar, "hareketi azalt" açıksa kendi başlamaz. Videonun sonundaki "App Store’da yakında" yazısı yayından sonra değişmeli.
 - **Canlı vakitler yaklaşık:** `app.js` İstanbul için güneş konumundan hesaplıyor (imsak 18°, yatsı 17°, Şafii ikindi, Diyanet'e benzer dakika düzeltmeleri). Diyanet takvimiyle birkaç dakika fark edebilir; sayfada "yaklaşık" diye yazıyor. Uygulamanın kendi hesabıyla (`src/lib/prayer.ts`) karşılaştırılmalı.
-- **Örnek içerik:** akıştaki ve widget'taki zikirler, seri sayısı (12 gün) ve üç yarışma sorusu temsilîdir.
+- **Örnek içerik:** girişteki akış telefonu uygulamanın kütüphanesinden 8 kısa kart döndürür (ayetten ilham ×2, hadis ×2, zikir, dua, esmâ, Yunus Emre). Meal metni bilerek konmadı (meal lisansı çözülmedi); ilham kartları yalnızca ayeti kaynak gösterir. Hepsi uygulamadaki gibi TASLAK, ilim ehli onayından geçmeli. Widget'taki zikir, seri sayısı (12 gün) ve üç yarışma sorusu da temsilîdir.
 - **Telif:** `© 2026 Hadıra` satırı, şirket/şahıs adı netleşince güncellenecek.
 - **Alt bilgi bağlantıları:** `gizlilik.html`, `kullanim-kosullari.html`, `kvkk.html`, `destek.html` göreli bağlantılar. Bu sayfalar uygulama deposunda `npm run site:export` ile `site/` klasörüne üretiliyor. Şu anki çıktıların hepsinde "Taslak: yayınlamayın" uyarısı olduğu için bu depoya **konmadı**; onaylanınca kök dizine kopyalanacak. O zamana kadar bu bağlantılar 404 verir.
 
@@ -55,6 +55,14 @@ Framework, harici istek, çerez, analitik, izleyici yok. `prefers-reduced-motion
 4. **İçerik onayı:** sayfada meal metni yok (meal lisansı çözülmedi). Sayfadaki zikirler (Sübhânallâhi ve bihamdihî, Elhamdülillâh, Lâ ilâhe illallah, Allâhu ekber, Estağfirullah) ve üç yarışma sorusu ilim ehli onayından geçmeli.
 5. **Özellik listesi:** sayfa `docs/release/app-store-metadata.tr.json` ve `src/data/premium.ts` ile uyumlu yazıldı (uygulama deposu) (ücretsiz: 2 hatırlatma, Premium: 10; ücretsiz temalar Altın deniz, Koyu, Krem). Bunlardan biri değişirse sayfa da değişmeli.
 
+## Fiyatlar
+
+Premium kartında aylık ₺89,99 ve yıllık ₺599,99 (ayda ≈ ₺50, aylığa göre %44 daha uygun) yazar. App Store Connect'teki Türkiye fiyatı değişirse `index.html` → `.prices` de aynı gün değişmeli; sayfa "App Store'un ödeme ekranındaki fiyat geçerlidir" der.
+
+## Canlı temalar
+
+Girişteki akış telefonu her kartta uygulamanın bir temasını giyer (çoğu Premium canlı tema); tema seçicide 6 canlı tema var. Efektler (`.fx[data-fx]`: yildiz, nur, yagis, isik, dalga, desen) uygulamadaki `MotionLayer` türlerinin CSS karşılığıdır, renkler `src/data/themes.ts`'ten alındı. "Hareketi azalt" açıkken durur.
+
 ## Bilerek konmayanlar
 
-Fiyat ve deneme süresi (yalnızca mağaza gösterir), yorum/puan/indirme sayısı, basın logoları, e-posta kayıt formu, "reklamsız" vaadi, "yakında" özellikleri, kıble, ezan sesi, uygulama simgeleri, hesap/giriş, insan veya peygamber görseli, `assets/videos` ve `assets/audio` içeriği.
+Deneme süresi (yalnızca mağaza gösterir), yorum/puan/indirme sayısı, basın logoları, e-posta kayıt formu, "reklamsız" vaadi, "yakında" özellikleri, kıble, ezan sesi, uygulama simgeleri, hesap/giriş, insan veya peygamber görseli, `assets/videos` ve `assets/audio` içeriği.
