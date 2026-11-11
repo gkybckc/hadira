@@ -32,7 +32,7 @@ Betik yüklenecek her şeyi `yayin/` klasörüne toplar (depoya girmez). `reklam
 | `app.js` | Ekranları canlandırır: İstanbul saati, sayfada hesaplanan yaklaşık namaz vakitleri ve geri sayım, kendi kendine kayan akış (dokununca favori), çan düğmeleri, tema değiştirici, 3 örnek soruluk yarışma. Ağ isteği, depolama, çerez yok. JS kapalıysa sabit örnek değerler görünür |
 | `styles.css` | Tüm stil. Açık tema uygulamanın "Krem", koyu tema uygulamanın kömür/altın renkleri (uygulamadaki `tailwind.config.js`, `src/lib/tokens.ts`, `src/data/themes.ts`) |
 | `assets/fonts/` | Fraunces 600 + 400 italik, DM Sans 400 + 500. Uygulamanın kendi yazı tipleri, uygulamadaki `@expo-google-fonts` paketlerinden Türkçe karakterlerle alt kümelendi (.woff). Lisans: SIL OFL, metinleri yanında |
-| `assets/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | Site simgesi (kemer + altın nokta). Uygulama simgesi değildir |
+| `assets/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | Site simgesi (kemer + altın nokta). 11 Kasım 2026’dan beri uygulama simgesi de aynı işaret (uygulamada `scripts/ikonlar.cjs`) |
 | `assets/og.png` | 1200×630 paylaşım görseli |
 
 Framework, harici istek, çerez, analitik, izleyici yok. `prefers-reduced-motion` açıksa akış kendi kaymaz, giriş ve paralaks hareketleri kapanır. Google Fonts kullanılmıyor.
