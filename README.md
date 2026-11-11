@@ -63,6 +63,22 @@ Premium kartında aylık ₺89,99 ve yıllık ₺599,99 (ayda ≈ ₺50, aylığ
 
 Girişteki akış telefonu her kartta uygulamanın bir temasını giyer (çoğu Premium canlı tema); tema seçicide 6 canlı tema var. Efektler (`.fx[data-fx]`: yildiz, nur, yagis, isik, dalga, desen) uygulamadaki `MotionLayer` türlerinin CSS karşılığıdır, renkler `src/data/themes.ts`'ten alındı. "Hareketi azalt" açıkken durur.
 
+## Video temalar (`assets/temalar/`)
+
+Uygulamanın `assets/videos/` klasöründeki video temalardan 7 tanesinin web için küçültülmüş kopyası: 360×640, 24 fps, sessiz, H.264; yanında ilk kareden `.webp` kapak. Yalnızca kartı ya da teması ekranda görünürken yüklenir ve oynar; "hareketi azalt" açıksa kapak resmi durur.
+
+**Kaynakları henüz belgelenmedi.** Uygulamadaki gibi burada da her satıra indirildiği sayfa, yazar, lisans adı ve indirme tarihi yazılmalı (uygulamada aynı liste: `docs/release/MEDIA_LICENSE_INVENTORY.md`).
+
+| Sitedeki dosya | Uygulamadaki dosya | Nerede | İndirildiği sayfa | Yazar | Lisans | Tarih |
+|---|---|---|---|---|---|---|
+| `minare-gun-batimi` | `free-minare-gün-batımı.mp4` | Akış (zikir kartı) | | | | |
+| `yildizli-minare` | `yıldızlı-minare.mp4` | Akış, tema seçici | | | | |
+| `cami-sutunlari` | `cami-sütunları.mp4` | Akış (esmâ kartı) | | | | |
+| `zumrut-okyanus` | `zümrüt-okyanus.mp4` | Akış (hadis kartı) | | | | |
+| `bahar-dali` | `bahar-dalı.mp4` | Akış (Yunus Emre kartı) | | | | |
+| `karli-fener` | `karlı-fener.mp4` | Tema seçici | | | | |
+| `altin-kandiller` | `altın-kandiller.mp4` | Tema seçici | | | | |
+
 ## Bilerek konmayanlar
 
 Deneme süresi (yalnızca mağaza gösterir), yorum/puan/indirme sayısı, basın logoları, e-posta kayıt formu, "reklamsız" vaadi, "yakında" özellikleri, kıble, ezan sesi, uygulama simgeleri, hesap/giriş, insan veya peygamber görseli, `assets/videos` ve `assets/audio` içeriği.
